@@ -4,7 +4,7 @@
  </head>
  <body>
   <?php
-  print "Hello from container ".$_SERVER['HTTP_HOST']."\n";
+  print "Hello from container ".gethostname()."\n";
   ?>
  </body>
 </html>
