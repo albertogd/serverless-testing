@@ -1,0 +1,24 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: hello-knative
+spec:
+  template:
+    metadata:
+      name: hello-knative-s1
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/target: "5"
+        autoscaling.knative.dev/metric: "rps"
+    spec:
+      containers:
+      - image: image-registry.openshift-image-registry.svc:5000/hello-world/hello@sha256:7d2b3eb85c57d0930a96255bbf7aeac5f514b5613d9bcac0a68e78de1a1f9928
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+
+  traffic:
+  - percent: 100
+    revisionName: hello-knative-s1
+  - revisionName: hello-knative-s1
+    tag: s1
